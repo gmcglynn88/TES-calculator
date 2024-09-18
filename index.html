@@ -1,98 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Package Selection and Calculation</title>
-<style>
-    body {
-        font-family: 'Proxima Nova', Arial, sans-serif;
-        line-height: 1.6;
-        padding: 20px;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
-    }
-    table, th, td {
-        border: 1px solid #ccc;
-    }
-    th, td {
-        padding: 10px;
-        text-align: left;
-    }
-    th {
-        background-color: #f2f2f2;
-    }
-    .calculation {
-        margin-top: 20px;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Package Selection and Cost Calculation</title>
+    <style>
+        body {
+            font-family: 'Proxima Nova', Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .calculation {
+            margin-top: 20px;
+        }
+        .input-field {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-<h2>Packages and Effort Calculation</h2>
+<h2>Packages and Cost Calculation</h2>
 
-<table id="packagesTable">
-    <thead>
-        <tr>
-            <th>Package</th>
-            <th>Items Included</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr data-package="basic">
-            <td>Basic Package</td>
-            <td>Item 1, Item 2</td>
-        </tr>
-        <tr data-package="standard">
-            <td>Standard Package</td>
-            <td>Item 1, Item 2, Item 3</td>
-        </tr>
-        <tr data-package="premium">
-            <td>Premium Package</td>
-            <td>Item 1, Item 2, Item 3, Item 4</td>
-        </tr>
-    </tbody>
-</table>
+<div class="input-field">
+    <label for="packageSelect">Select Package:</label>
+    <select id="packageSelect">
+        <option value="">--Select--</option>
+        <option value="basic">Basic (£3,300)</option>
+        <option value="standard">Standard (£4,950)</option>
+        <option value="optimised">Optimised (£6,600)</option>
+    </select>
+</div>
 
-<label for="customEffort">Enter Custom Effort (hours): </label>
-<input type="number" id="customEffort" placeholder="Enter hours" />
+<div class="input-field">
+    <label for="agentsInput">Number of Agents:</label>
+    <input type="number" id="agentsInput" min="0" value="0">
+</div>
+
+<div class="input-field">
+    <label for="supervisorsInput">Number of Supervisors:</label>
+    <input type="number" id="supervisorsInput" min="0" value="0">
+</div>
+
+<div class="input-field">
+    <label for="trainersInput">Number of Trainers/Champions:</label>
+    <input type="number" id="trainersInput" min="0" value="0">
+</div>
 
 <div id="calculationResult" class="calculation">
-    <strong>Effort Required:</strong> <span id="effort"></span>
+    <strong>Total Cost:</strong> <span id="totalCost">£0.00</span>
 </div>
 
 <script>
-    // Function to calculate effort based on package selection
-    function calculateEffort(selectedPackage, customEffort) {
-        let effort = customEffort || 0;
+    const packageCosts = {
+        basic: 3300,
+        standard: 4950,
+        optimised: 6600
+    };
 
-        // Define base efforts for packages
-        switch (selectedPackage) {
-            case 'basic':
-                effort += 10; // Base effort for Basic Package
-                break;
-            case 'standard':
-                effort += 20; // Base effort for Standard Package
-                break;
-            case 'premium':
-                effort += 30; // Base effort for Premium Package
-                break;
+    function calculateTotalCost() {
+        const package = document.getElementById('packageSelect').value;
+        const agents = parseInt(document.getElementById('agentsInput').value) || 0;
+        const supervisors = parseInt(document.getElementById('supervisorsInput').value) || 0;
+        const trainers = parseInt(document.getElementById('trainersInput').value) || 0;
+
+        let cost = 0;
+
+        if (package) {
+            cost = packageCosts[package];
         }
 
-        return effort;
+        // Assuming you want to add the costs of agents, supervisors, and trainers
+        // You can adjust these multipliers as necessary
+        cost += (agents * 100) + (supervisors * 200) + (trainers * 300); // Example multipliers
+
+        document.getElementById('totalCost').textContent = `£${cost.toFixed(2)}`;
     }
 
-    // Event listener for package selection
-    document.getElementById('packagesTable').addEventListener('click', function(event) {
-        if (event.target.tagName === 'TD' && event.target.parentNode.hasAttribute('data-package')) {
-            const selectedPackage = event.target.parentNode.getAttribute('data-package');
-            const customEffort = parseFloat(document.getElementById('customEffort').value) || 0;
-            const effort = calculateEffort(selectedPackage, customEffort);
-            document.getElementById('effort').textContent = effort + ' hours'; // Displaying the effort
-        }
-    });
+    document.getElementById('packageSelect').addEventListener('change', calculateTotalCost);
+    document.getElementById('agentsInput').addEventListener('input', calculateTotalCost);
+    document.getElementById('supervisorsInput').addEventListener('input', calculateTotalCost);
+    document.getElementById('trainersInput').addEventListener('input', calculateTotalCost);
 </script>
 
 </body>
