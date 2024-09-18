@@ -63,9 +63,10 @@
 <div id="packageDetails" class="package-details">
     <h3>Package Details</h3>
     <p id="description"></p>
-    <p id="deliveryMethod"></p>
+    <p><strong>Delivery Method:</strong> <span id="deliveryMethod"></span></p>
+    <p><strong>Core Components:</strong></p>
     <ul id="coreComponents"></ul>
-    <p id="packageSize"></p>
+    <p><strong>Package Size:</strong> <span id="packageSize"></span></p>
 </div>
 
 <div id="calculationResult" class="calculation">
@@ -116,7 +117,7 @@
         if (selectedPackage) {
             const data = packageData[selectedPackage];
             document.getElementById('description').textContent = data.description;
-            document.getElementById('deliveryMethod').textContent = "Delivery Method: " + data.deliveryMethod;
+            document.getElementById('deliveryMethod').textContent = data.deliveryMethod;
 
             const coreComponentsList = document.getElementById('coreComponents');
             coreComponentsList.innerHTML = ''; // Clear previous items
@@ -126,7 +127,7 @@
                 coreComponentsList.appendChild(li);
             });
 
-            document.getElementById('packageSize').textContent = "Package Size: " + data.packageSize;
+            document.getElementById('packageSize').textContent = data.packageSize;
             detailsDiv.style.display = 'block';
             calculateTotalCost();
         } else {
