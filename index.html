@@ -10,11 +10,26 @@
             line-height: 1.6;
             padding: 20px;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .calculation {
+            margin-top: 20px;
+        }
         .input-field {
             margin-bottom: 10px;
         }
         .package-details {
-            margin-top: 20px;
             display: none; /* Hidden by default */
         }
     </style>
@@ -22,30 +37,31 @@
 <body>
 <h2>Packages and Cost Calculation</h2>
 
-<div class="input-field">
-    <label for="packageSelect">Select Package:</label>
-    <select id="packageSelect">
-        <option value="">--Select--</option>
-        <option value="basic">Basic (£3,300)</option>
-        <option value="standard">Standard (£4,950)</option>
-        <option value="optimised">Optimised (£6,600)</option>
-    </select>
-</div>
-
-<div class="input-field">
-    <label for="agentsInput">Number of Agents:</label>
-    <input type="number" id="agentsInput" min="0" value="0">
-</div>
-
-<div class="input-field">
-    <label for="supervisorsInput">Number of Supervisors:</label>
-    <input type="number" id="supervisorsInput" min="0" value="0">
-</div>
-
-<div class="input-field">
-    <label for="trainersInput">Number of Trainers/Champions:</label>
-    <input type="number" id="trainersInput" min="0" value="0">
-</div>
+<table>
+    <tr>
+        <th>Select Package</th>
+        <td>
+            <select id="packageSelect">
+                <option value="">--Select--</option>
+                <option value="basic">Basic (£3,300)</option>
+                <option value="standard">Standard (£4,950)</option>
+                <option value="optimised">Optimised (£6,600)</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th>Number of Agents</th>
+        <td><input type="number" id="agentsInput" min="0" value="0"></td>
+    </tr>
+    <tr>
+        <th>Number of Supervisors</th>
+        <td><input type="number" id="supervisorsInput" min="0" value="0"></td>
+    </tr>
+    <tr>
+        <th>Number of Trainers/Champions</th>
+        <td><input type="number" id="trainersInput" min="0" value="0"></td>
+    </tr>
+</table>
 
 <div id="packageDetails" class="package-details">
     <h3>Package Details</h3>
