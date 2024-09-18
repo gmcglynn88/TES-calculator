@@ -10,26 +10,12 @@
             line-height: 1.6;
             padding: 20px;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ccc;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .calculation {
-            margin-top: 20px;
-        }
         .input-field {
             margin-bottom: 10px;
+        }
+        .package-details {
+            margin-top: 20px;
+            display: none; /* Hidden by default */
         }
     </style>
 </head>
@@ -61,16 +47,60 @@
     <input type="number" id="trainersInput" min="0" value="0">
 </div>
 
+<div id="packageDetails" class="package-details">
+    <h3>Package Details</h3>
+    <p id="description"></p>
+    <p id="deliveryMethod"></p>
+    <p id="coreComponents"></p>
+    <p id="packageSize"></p>
+</div>
+
 <div id="calculationResult" class="calculation">
     <strong>Total Cost:</strong> <span id="totalCost">£0.00</span>
 </div>
 
 <script>
-    const packageCosts = {
-        basic: 3300,
-        standard: 4950,
-        optimised: 6600
+    const packageData = {
+        basic: {
+            cost: 3300,
+            description: "The basic package includes training for up to 75 seats.",
+            deliveryMethod: "Train the Trainer",
+            coreComponents: "Includes: Training in scope day 1 services, Train The Trainer - Agent & Supervisor Course, Go Live support 1 day.",
+            packageSize: "Suitable for small contact centers up to 75 seats."
+        },
+        standard: {
+            cost: 4950,
+            description: "Enhanced support with customized materials and planning workshops.",
+            deliveryMethod: "Train the Trainer",
+            coreComponents: "Includes: Discovery & Planning Workshop, Customised materials, Go Live support.",
+            packageSize: "Suitable for medium contact centers 75-200 seats."
+        },
+        optimised: {
+            cost: 6600,
+            description: "Comprehensive package for company-wide training and ongoing support.",
+            deliveryMethod: "Train the Trainer",
+            coreComponents: "Includes: Discovery & Planning Workshops, E-learning modules, Go Live support.",
+            packageSize: "Suitable for large contact centers 200-350 seats and beyond."
+        }
     };
+
+    function updatePackageDetails() {
+        const selectedPackage = document.getElementById('packageSelect').value;
+        const detailsDiv = document.getElementById('packageDetails');
+
+        if (selectedPackage) {
+            const data = packageData[selectedPackage];
+            document.getElementById('description').textContent = data.description;
+            document.getElementById('deliveryMethod').textContent = "Delivery Method: " + data.deliveryMethod;
+            document.getElementById('coreComponents').textContent = "Core Components: " + data.coreComponents;
+            document.getElementById('packageSize').textContent = "Package Size: " + data.packageSize;
+            detailsDiv.style.display = 'block';
+            calculateTotalCost();
+        } else {
+            detailsDiv.style.display = 'none';
+            document.getElementById('totalCost').textContent = '£0.00';
+        }
+    }
 
     function calculateTotalCost() {
         const package = document.getElementById('packageSelect').value;
@@ -78,20 +108,15 @@
         const supervisors = parseInt(document.getElementById('supervisorsInput').value) || 0;
         const trainers = parseInt(document.getElementById('trainersInput').value) || 0;
 
-        let cost = 0;
+        let cost = package ? packageData[package].cost : 0;
 
-        if (package) {
-            cost = packageCosts[package];
-        }
-
-        // Assuming you want to add the costs of agents, supervisors, and trainers
-        // You can adjust these multipliers as necessary
-        cost += (agents * 100) + (supervisors * 200) + (trainers * 300); // Example multipliers
+        // Example multipliers for additional roles
+        cost += (agents * 100) + (supervisors * 200) + (trainers * 300); // Adjust as necessary
 
         document.getElementById('totalCost').textContent = `£${cost.toFixed(2)}`;
     }
 
-    document.getElementById('packageSelect').addEventListener('change', calculateTotalCost);
+    document.getElementById('packageSelect').addEventListener('change', updatePackageDetails);
     document.getElementById('agentsInput').addEventListener('input', calculateTotalCost);
     document.getElementById('supervisorsInput').addEventListener('input', calculateTotalCost);
     document.getElementById('trainersInput').addEventListener('input', calculateTotalCost);
