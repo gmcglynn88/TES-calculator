@@ -26,9 +26,6 @@
         .calculation {
             margin-top: 20px;
         }
-        .input-field {
-            margin-bottom: 10px;
-        }
         .package-details {
             display: none; /* Hidden by default */
         }
@@ -67,7 +64,7 @@
     <h3>Package Details</h3>
     <p id="description"></p>
     <p id="deliveryMethod"></p>
-    <p id="coreComponents"></p>
+    <ul id="coreComponents"></ul>
     <p id="packageSize"></p>
 </div>
 
@@ -81,21 +78,33 @@
             cost: 3300,
             description: "The basic package includes training for up to 75 seats.",
             deliveryMethod: "Train the Trainer",
-            coreComponents: "Includes: Training in scope day 1 services, Train The Trainer - Agent & Supervisor Course, Go Live support 1 day.",
+            coreComponents: [
+                "Training in scope day 1 services",
+                "Train The Trainer - Agent & Supervisor Course",
+                "Go Live support 1 day"
+            ],
             packageSize: "Suitable for small contact centers up to 75 seats."
         },
         standard: {
             cost: 4950,
             description: "Enhanced support with customized materials and planning workshops.",
             deliveryMethod: "Train the Trainer",
-            coreComponents: "Includes: Discovery & Planning Workshop, Customised materials, Go Live support.",
+            coreComponents: [
+                "Discovery & Planning Workshop",
+                "Customised materials",
+                "Go Live support"
+            ],
             packageSize: "Suitable for medium contact centers 75-200 seats."
         },
         optimised: {
             cost: 6600,
             description: "Comprehensive package for company-wide training and ongoing support.",
             deliveryMethod: "Train the Trainer",
-            coreComponents: "Includes: Discovery & Planning Workshops, E-learning modules, Go Live support.",
+            coreComponents: [
+                "Discovery & Planning Workshops",
+                "E-learning modules",
+                "Go Live support"
+            ],
             packageSize: "Suitable for large contact centers 200-350 seats and beyond."
         }
     };
@@ -108,7 +117,15 @@
             const data = packageData[selectedPackage];
             document.getElementById('description').textContent = data.description;
             document.getElementById('deliveryMethod').textContent = "Delivery Method: " + data.deliveryMethod;
-            document.getElementById('coreComponents').textContent = "Core Components: " + data.coreComponents;
+
+            const coreComponentsList = document.getElementById('coreComponents');
+            coreComponentsList.innerHTML = ''; // Clear previous items
+            data.coreComponents.forEach(component => {
+                const li = document.createElement('li');
+                li.textContent = component;
+                coreComponentsList.appendChild(li);
+            });
+
             document.getElementById('packageSize').textContent = "Package Size: " + data.packageSize;
             detailsDiv.style.display = 'block';
             calculateTotalCost();
