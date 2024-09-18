@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Package Selection and Calculation</title>
+<style>
+    body {
+        font-family: 'Proxima Nova', Arial, sans-serif;
+        line-height: 1.6;
+        padding: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    table, th, td {
+        border: 1px solid #ccc;
+    }
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .calculation {
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+<h2>Packages and Effort Calculation</h2>
+
+<table id="packagesTable">
+    <thead>
+        <tr>
+            <th>Package</th>
+            <th>Items Included</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-package="basic">
+            <td>Basic Package</td>
+            <td>Item 1, Item 2</td>
+        </tr>
+        <tr data-package="standard">
+            <td>Standard Package</td>
+            <td>Item 1, Item 2, Item 3</td>
+        </tr>
+        <tr data-package="premium">
+            <td>Premium Package</td>
+            <td>Item 1, Item 2, Item 3, Item 4</td>
+        </tr>
+    </tbody>
+</table>
+
+<div id="calculationResult" class="calculation">
+    <strong>Effort Required:</strong> <span id="effort"></span>
+</div>
+
+<script>
+    // Function to calculate effort based on package selection
+    function calculateEffort(selectedPackage) {
+        let effort = 0;
+
+        // You can define your calculation logic here based on the selected package
+        switch (selectedPackage) {
+            case 'basic':
+                effort = 10; // Example calculation
+                break;
+            case 'standard':
+                effort = 20; // Example calculation
+                break;
+            case 'premium':
+                effort = 30; // Example calculation
+                break;
+            default:
+                effort = 0;
+                break;
+        }
+
+        return effort;
+    }
+
+    // Event listener for package selection
+    document.getElementById('packagesTable').addEventListener('click', function(event) {
+        if (event.target.tagName === 'TD' && event.target.parentNode.hasAttribute('data-package')) {
+            const selectedPackage = event.target.parentNode.getAttribute('data-package');
+            const effort = calculateEffort(selectedPackage);
+            document.getElementById('effort').textContent = effort + ' hours'; // Displaying the effort
+        }
+    });
+</script>
+
+</body>
+</html>
